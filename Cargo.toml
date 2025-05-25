@@ -3,9 +3,6 @@ name = "ruby"
 version = "0.1.0"
 edition = "2024"
 
-[[example]]
-name = "rect"
-path = "examples/widgets/rect.rs"
 
 [dependencies]
 env_logger = "0.11.8"
@@ -13,5 +10,13 @@ log = "0.4.27"
 pixels = "0.15.0"
 tiny-skia = "0.11.4"
 winit = "0.30.10"
+
+[[example]]
+name = "rect"
+path = "examples/widgets/rect.rs"
+
+[[example]]
+name = "column"
+path = "examples/widgets/column.rs"
 
 

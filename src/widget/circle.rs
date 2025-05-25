@@ -1,7 +1,7 @@
 use tiny_skia::{Color, FillRule, Paint, PathBuilder, Pixmap, Transform};
 use super::Widget;
 
-#[derive(Default)]
+#[derive(Default,Debug,Clone, Copy)]
 pub struct Circle{
     position: [f32;2],
     radius: f32,

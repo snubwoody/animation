@@ -4,7 +4,7 @@ pub mod widget;
 use std::sync::Arc;
 use pixels::{Pixels, SurfaceTexture};
 use tiny_skia::{Color,Pixmap};
-use widget::{Circle, Widget};
+use widget::Widget;
 use winit::{
     application::ApplicationHandler, 
     dpi::PhysicalSize, 
@@ -15,6 +15,8 @@ use winit::{
 pub use size::Size;
 pub use position::Position;
 
+
+/// An [`App`] is your entire program
 pub struct App<'a>{
     window: Option<Arc<Window>>,
     pixels: Option<Pixels<'a>>,
@@ -88,10 +90,6 @@ impl<'a> ApplicationHandler for App<'a>{
     }
 }
 
-pub fn main(){
-    let event_loop = EventLoop::new().unwrap();
-    event_loop.set_control_flow(ControlFlow::Poll);
-    let widget = Circle::new(0.0, 0.0,50.0);
-    let mut app = App::new(widget);
-    event_loop.run_app(&mut app).unwrap();
+struct Constraints{
+
 }
