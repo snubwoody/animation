@@ -1,4 +1,4 @@
 
 fn main(){
-    animation::main();
+    ruby::main();
 }
