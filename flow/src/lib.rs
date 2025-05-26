@@ -44,7 +44,7 @@ pub trait Layout: Debug {
     /// Set the layout's min height
     fn set_min_height(&mut self, height: f32);
 
-    fn solve_max_constraints(&mut self, max_size: Size<f32>) {}
+    fn solve_max_constraints(&mut self) {}
     /// Calculate the minimum BoxConstraints and pass it back to the parent
     fn solve_min_contraints(&mut self) -> (f32,f32);
 
@@ -76,7 +76,7 @@ pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
     }
 
     // FIXME set the max size to the root BoxConstraints
-    layout.solve_max_constraints(max_size);
+    layout.solve_max_constraints();
     layout.solve_min_contraints();
     layout.update_size();
 }

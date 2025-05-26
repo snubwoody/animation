@@ -33,14 +33,14 @@ impl BlockLayout {
 }
 
 impl Layout for BlockLayout {
-    fn solve_max_constraints(&mut self, max_size: Size<f32>) {
+    fn solve_max_constraints(&mut self) {
         match self.child.intrinsic_width(){
             BoxSizing::Fixed(width) => {
                 self.child.set_max_width(width);
             },
             BoxSizing::Fit | BoxSizing::Flex(_) => {
                 let padding = self.padding.left + self.padding.right;
-                let width = max_size.width - padding as f32;
+                let width = self.constraints.max_width - padding as f32;
                 self.child.set_max_width(width);
             }
         }
@@ -51,10 +51,12 @@ impl Layout for BlockLayout {
             },
             BoxSizing::Fit | BoxSizing::Flex(_) => {
                 let padding = self.padding.top + self.padding.bottom;
-                let height = max_size.height - padding as f32;
+                let height = self.constraints.max_height - padding as f32;
                 self.child.set_max_height(height);
             }
         }
+
+        self.child.solve_max_constraints();
     }
 
     fn solve_min_contraints(&mut self) -> (f32,f32) {
