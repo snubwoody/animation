@@ -1,9 +1,19 @@
+//! GUI library.
+//! 
+//! A [`Widget`] is a high level structure that can contain any data and
+//! state. A [`Layout`] is an object that contains layout definitions
+//! and constraints. An [`Element`] is a low level object that contains
+//! color, size and position information used for rendering.
+#![feature(random)]
 mod size;
 mod position;
+mod color;
+mod layout;
+mod element;
 pub mod widget;
 use std::sync::Arc;
 use pixels::{Pixels, SurfaceTexture};
-use tiny_skia::{Color,Pixmap};
+use tiny_skia::Pixmap;
 use widget::Widget;
 use winit::{
     application::ApplicationHandler, 
@@ -12,9 +22,10 @@ use winit::{
     event_loop::{ControlFlow, EventLoop}, 
     window::Window
 };
+pub use color::{Color,Rgba};
 pub use size::Size;
 pub use position::Position;
-
+pub use element::{Element};
 
 /// An [`App`] is your entire program
 pub struct App<'a>{
@@ -69,7 +80,7 @@ impl<'a> ApplicationHandler for App<'a>{
         let pixels = self.pixels.as_mut().unwrap();
         let Size { width, height } = self.size;
         let mut pixmap = Pixmap::new(width, height).unwrap();
-        pixmap.fill(Color::WHITE);
+        pixmap.fill(tiny_skia::Color::WHITE);
 
         match event {
             WindowEvent::CloseRequested => event_loop.exit(),
@@ -90,6 +101,3 @@ impl<'a> ApplicationHandler for App<'a>{
     }
 }
 
-struct Constraints{
-
-}
