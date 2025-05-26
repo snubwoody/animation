@@ -1,4 +1,4 @@
-use crate::{impl_layout, BoxSizing, BoxConstraints, Layout, Padding};
+use crate::{BoxConstraints, BoxSizing, Layout, Padding, impl_layout};
 use ruby_core::{GlobalId, Position, Size};
 
 #[derive(Debug)]
@@ -27,17 +27,17 @@ impl BlockLayout {
         }
     }
 
-    pub fn child(&self) -> &dyn Layout{
+    pub fn child(&self) -> &dyn Layout {
         self.child.as_ref()
     }
 }
 
 impl Layout for BlockLayout {
     fn solve_max_constraints(&mut self) {
-        match self.child.intrinsic_width(){
+        match self.child.intrinsic_width() {
             BoxSizing::Fixed(width) => {
                 self.child.set_max_width(width);
-            },
+            }
             BoxSizing::Fit | BoxSizing::Flex(_) => {
                 let padding = self.padding.left + self.padding.right;
                 let width = self.constraints.max_width - padding as f32;
@@ -45,10 +45,10 @@ impl Layout for BlockLayout {
             }
         }
 
-        match self.child.intrinsic_height(){
+        match self.child.intrinsic_height() {
             BoxSizing::Fixed(height) => {
                 self.child.set_max_height(height);
-            },
+            }
             BoxSizing::Fit | BoxSizing::Flex(_) => {
                 let padding = self.padding.top + self.padding.bottom;
                 let height = self.constraints.max_height - padding as f32;
@@ -59,10 +59,10 @@ impl Layout for BlockLayout {
         self.child.solve_max_constraints();
     }
 
-    fn solve_min_contraints(&mut self) -> (f32,f32) {
-        let (min_width,min_height) = self.child.solve_min_contraints();
+    fn solve_min_contraints(&mut self) -> (f32, f32) {
+        let (min_width, min_height) = self.child.solve_min_contraints();
 
-        match self.intrinsic_width(){
+        match self.intrinsic_width() {
             BoxSizing::Flex(_) => self.set_min_width(min_width),
             BoxSizing::Fixed(width) => self.set_min_width(width),
             BoxSizing::Fit => {
@@ -72,7 +72,7 @@ impl Layout for BlockLayout {
             }
         }
 
-        match self.intrinsic_height(){
+        match self.intrinsic_height() {
             BoxSizing::Flex(_) => self.set_min_height(min_height),
             BoxSizing::Fixed(height) => self.set_min_height(height),
             BoxSizing::Fit => {
@@ -82,7 +82,7 @@ impl Layout for BlockLayout {
             }
         }
 
-        (self.constraints.min_width,self.constraints.min_height)
+        (self.constraints.min_width, self.constraints.min_height)
     }
 
     fn update_size(&mut self) {

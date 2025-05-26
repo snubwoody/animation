@@ -1,4 +1,4 @@
-use crate::{BoxSizing, BoxConstraints, Layout, Position, Size, impl_layout};
+use crate::{BoxConstraints, BoxSizing, Layout, Position, Size, impl_layout};
 use ruby_core::GlobalId;
 
 #[derive(Debug, Default)]
@@ -18,18 +18,18 @@ impl EmptyLayout {
 }
 
 impl Layout for EmptyLayout {
-    fn solve_min_contraints(&mut self) -> (f32,f32) {
+    fn solve_min_contraints(&mut self) -> (f32, f32) {
         match self.intrinsic_width {
-            BoxSizing::Fit| BoxSizing::Flex(_) => self.set_min_width(0.0),
-            BoxSizing::Fixed(width) => self.set_min_width(width),            
+            BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_width(0.0),
+            BoxSizing::Fixed(width) => self.set_min_width(width),
         }
 
         match self.intrinsic_height {
-            BoxSizing::Fit| BoxSizing::Flex(_) => self.set_min_height(0.0),
-            BoxSizing::Fixed(height) => self.set_min_height(height),            
+            BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_height(0.0),
+            BoxSizing::Fixed(height) => self.set_min_height(height),
         }
 
-        (self.constraints.min_width,self.constraints.min_height)
+        (self.constraints.min_width, self.constraints.min_height)
     }
 
     fn update_size(&mut self) {
@@ -48,4 +48,3 @@ impl Layout for EmptyLayout {
 
     impl_layout!();
 }
-

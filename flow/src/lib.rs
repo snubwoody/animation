@@ -10,10 +10,10 @@ mod empty;
 mod horizontal;
 use std::fmt::Debug;
 
-use ruby_core::GlobalId;
 pub use block::BlockLayout;
 pub use empty::EmptyLayout;
 pub use horizontal::HorizontalLayout;
+use ruby_core::GlobalId;
 pub use ruby_core::{Position, Size};
 
 pub trait Layout: Debug {
@@ -46,7 +46,7 @@ pub trait Layout: Debug {
 
     fn solve_max_constraints(&mut self) {}
     /// Calculate the minimum BoxConstraints and pass it back to the parent
-    fn solve_min_contraints(&mut self) -> (f32,f32);
+    fn solve_min_contraints(&mut self) -> (f32, f32);
 
     fn constraints(&self) -> BoxConstraints;
 
@@ -81,21 +81,31 @@ pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
     layout.update_size();
 }
 
-#[derive(Debug,Default,Clone, Copy,PartialEq, Eq, PartialOrd, Ord)]
-pub struct Padding{
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Padding {
     pub left: u32,
     pub right: u32,
     pub top: u32,
-    pub bottom: u32
+    pub bottom: u32,
 }
 
-impl Padding{
-    pub fn new(left:u32, right:u32, top:u32, bottom: u32) -> Self{ 
-        Self { left, right, top, bottom }
+impl Padding {
+    pub fn new(left: u32, right: u32, top: u32, bottom: u32) -> Self {
+        Self {
+            left,
+            right,
+            top,
+            bottom,
+        }
     }
 
-    pub fn sides(x: u32,y:u32) -> Self{
-        Self { left: x, right: x, top: y, bottom: y }
+    pub fn sides(x: u32, y: u32) -> Self {
+        Self {
+            left: x,
+            right: x,
+            top: y,
+            bottom: y,
+        }
     }
 }
 
@@ -183,7 +193,7 @@ macro_rules! impl_layout {
             self.constraints.min_width = width;
         }
 
-        fn constraints(&self) -> crate::BoxConstraints{
+        fn constraints(&self) -> crate::BoxConstraints {
             self.constraints
         }
     };

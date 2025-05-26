@@ -1,4 +1,4 @@
-use crate::{impl_layout, BoxConstraints, BoxSizing, Layout, Padding, Position, Size};
+use crate::{BoxConstraints, BoxSizing, Layout, Padding, Position, Size, impl_layout};
 use ruby_core::GlobalId;
 
 /// A [`Layout`] that arranges it's children horizontally.
@@ -15,12 +15,10 @@ pub struct HorizontalLayout {
     constraints: BoxConstraints,
 }
 
-
-
 impl Layout for HorizontalLayout {
-    fn solve_min_contraints(&mut self) -> (f32,f32) {
-        (0.0,0.0)
+    fn solve_min_contraints(&mut self) -> (f32, f32) {
+        (0.0, 0.0)
     }
-    
+
     impl_layout!();
 }
