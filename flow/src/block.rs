@@ -29,6 +29,22 @@ impl BlockLayout {
 impl Layout for BlockLayout {
     fn solve_max_constraints(&mut self, max_size: Size<f32>) {}
 
+    fn solve_min_contraints(&mut self) -> (f32,f32) {
+        let (min_width,min_height) = self.child.solve_min_contraints();
+
+        match self.intrinsic_width(){
+            BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_width(min_width),
+            BoxSizing::Fixed(width) => self.set_min_width(width),
+        }
+
+        match self.intrinsic_height(){
+            BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_height(min_height),
+            BoxSizing::Fixed(height) => self.set_min_height(height),
+        }
+
+        (self.constraints.min_width,self.constraints.min_height)
+    }
+
     fn update_size(&mut self) {
         match self.intrinsic_width {
             BoxSizing::Fit => self.size.width = self.constraints.min_width,

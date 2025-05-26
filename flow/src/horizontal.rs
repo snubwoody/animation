@@ -14,5 +14,8 @@ pub struct HorizontalLayout {
 }
 
 impl Layout for HorizontalLayout {
+    fn solve_min_contraints(&mut self) -> (f32,f32) {
+        (0.0,0.0)
+    }
     impl_layout!();
 }
