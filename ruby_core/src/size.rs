@@ -8,9 +8,15 @@ pub struct Size<N>{
     pub height: N
 }
 
-impl<N> Size<N>{
+impl<N> Size<N>
+where N: Copy
+{
     pub fn new(width: N, height: N) -> Self{
         Self{width, height}
+    }
+
+    pub fn unit(value: N) -> Self{
+        Self::new(value, value)
     }
 }
 
