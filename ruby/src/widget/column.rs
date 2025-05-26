@@ -1,9 +1,12 @@
+use ruby_core::GlobalId;
+
 use super::Widget;
 
 /// A [`Column`] is a [`Widget`] that arranges it children
 /// vertically, one after the other.
 #[derive(Debug,Default)]
 pub struct Column{
+    id: GlobalId,
     children: Vec<Box<dyn Widget>>,
     spacing: f32
 }
@@ -20,10 +23,6 @@ impl Column{
     pub fn spacing(mut self,spacing: f32) -> Self{
         self.spacing = spacing;
         self
-    }
-
-    fn layout(&mut self){
-
     }
 }
 
@@ -76,10 +75,5 @@ mod tests{
         ];
 
         assert_eq!(column.children.len(),3)
-    }
-
-    #[test]
-    fn layout(){
-
     }
 }
