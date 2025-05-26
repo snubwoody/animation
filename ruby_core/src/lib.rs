@@ -1,17 +1,17 @@
 #![feature(random)]
 use std::{fmt::Debug, random::random};
-mod size;
 mod position;
+mod size;
 pub use position::Position;
 pub use size::Size;
 
 // Should this be copy? or even clone?
-#[derive(Debug,Clone, Copy,PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct GlobalId(i64);
 
-impl GlobalId{
-    pub fn new() -> Self { 
-        Self::default() 
+impl GlobalId {
+    pub fn new() -> Self {
+        Self::default()
     }
 }
 

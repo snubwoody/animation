@@ -1,28 +1,28 @@
 use crate::{Color, Position, Rgba, Size};
 
-#[derive(Debug,Clone,Default,PartialEq, PartialOrd)]
-pub struct Element{
+#[derive(Debug, Clone, Default, PartialEq, PartialOrd)]
+pub struct Element {
     pub padding: u32,
     pub spacing: f32,
     pub size: Size<f32>,
     pub position: Position<f32>,
     pub color: Color<Rgba>,
-    pub children: Vec<Element>
+    pub children: Vec<Element>,
 }
 
-impl Element{
-    pub fn layout(&mut self){
+impl Element {
+    pub fn layout(&mut self) {
         self.spacing();
     }
 
     /// Apply the spacing to the children
-    fn spacing(&mut self){
-        if self.children.is_empty(){
+    fn spacing(&mut self) {
+        if self.children.is_empty() {
             return;
         }
         let mut x = self.children[0].position.x;
 
-        for element in &mut self.children{
+        for element in &mut self.children {
             element.position.x = x;
             x += element.size.width;
             x += self.spacing;
@@ -30,14 +30,13 @@ impl Element{
     }
 }
 
-struct Constraints{
+struct Constraints {
     min: Size<f32>,
-    max: Size<f32>
+    max: Size<f32>,
 }
 
-enum InstrisicSize{
+enum InstrisicSize {
     Flex(u8),
     Fit,
-    Fixed(Size<f32>)
+    Fixed(Size<f32>),
 }
-
