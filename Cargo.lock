@@ -1500,6 +1500,7 @@ name = "ruby"
 version = "0.1.0"
 dependencies = [
  "env_logger",
+ "flow",
  "log",
  "pixels",
  "ruby_core",

@@ -11,6 +11,7 @@ pixels = "0.15.0"
 tiny-skia = "0.11.4"
 winit.workspace = true
 ruby_core = {path = "../ruby_core"}
+flow = {path = "../flow"}
 
 [[example]]
 name = "rect"

@@ -1,5 +1,5 @@
 use ruby_core::{GlobalId, Position, Size};
-use crate::{impl_layout, BoxSizing, Layout};
+use crate::{impl_layout, BoxSizing, Constraints, Layout};
 
 #[derive(Debug)]
 pub struct BlockLayout{
@@ -8,7 +8,8 @@ pub struct BlockLayout{
     pub intrinsic_height: BoxSizing,
     size: Size<f32>,
     position: Position<f32>,
-    child: Box<dyn Layout>
+    child: Box<dyn Layout>,
+    constraints: Constraints
 }
 
 impl BlockLayout{
@@ -19,28 +20,31 @@ impl BlockLayout{
             intrinsic_height: BoxSizing::default(), 
             size: Size::default(), 
             position: Position::default(), 
-            child: Box::new(child) 
+            child: Box::new(child),
+            constraints: Constraints::new()
         }
     }
 }
 
 impl Layout for BlockLayout{
     fn solve_max_constraints(&mut self,max_size: Size<f32>){
+
+    }
+
+    fn update_size(&mut self) {
         match self.intrinsic_width {
-            BoxSizing::Flex(factor) => {
-                self.size.width = max_size.width;
-            },
-            BoxSizing::Fit => {},
-            BoxSizing::Fixed(width) => {}
+            BoxSizing::Fit => self.size.width = self.constraints.min_width,
+            BoxSizing::Fixed(width) => self.size.width = width,
+            BoxSizing::Flex(_) => self.size.width = self.constraints.max_width 
         }
 
         match self.intrinsic_height {
-            BoxSizing::Flex(factor) => {
-                self.size.height = max_size.height;
-            },
-            BoxSizing::Fit => {},
-            BoxSizing::Fixed(height) => {}
+            BoxSizing::Fit => self.size.height = self.constraints.min_height,
+            BoxSizing::Fixed(height) => self.size.height = height,
+            BoxSizing::Flex(_) => self.size.height = self.constraints.max_height 
         }
+        
+        self.child.update_size();    
     }
 
     impl_layout!();
