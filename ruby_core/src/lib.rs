@@ -5,16 +5,17 @@ mod position;
 pub use position::Position;
 pub use size::Size;
 
+// Should this be copy? or even clone?
 #[derive(Debug,Clone, Copy,PartialEq, Eq, PartialOrd, Ord)]
-pub struct WidgetId(pub i64);
+pub struct GlobalId(i64);
 
-impl WidgetId{
+impl GlobalId{
     pub fn new() -> Self { 
         Self::default() 
     }
 }
 
-impl Default for WidgetId {
+impl Default for GlobalId {
     fn default() -> Self {
         // TODO replace with rand crate
         let id: i64 = random();
