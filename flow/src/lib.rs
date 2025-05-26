@@ -10,10 +10,10 @@ mod empty;
 mod horizontal;
 use std::fmt::Debug;
 
+use ruby_core::GlobalId;
 pub use block::BlockLayout;
 pub use empty::EmptyLayout;
 pub use horizontal::HorizontalLayout;
-use ruby_core::GlobalId;
 pub use ruby_core::{Position, Size};
 
 pub trait Layout: Debug {
@@ -45,6 +45,8 @@ pub trait Layout: Debug {
     fn set_min_height(&mut self, height: f32);
 
     fn solve_max_constraints(&mut self, max_size: Size<f32>) {}
+    /// Calculate the minimum constraints and pass it back to the parent
+    fn solve_min_contraints(&mut self) -> (f32,f32);
 
     /// Update the size of the layout after the contraints have been
     /// solved, and any child layouts
@@ -73,7 +75,26 @@ pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
 
     // FIXME set the max size to the root constraints
     layout.solve_max_constraints(max_size);
+    layout.solve_min_contraints();
     layout.update_size();
+}
+
+#[derive(Debug,Default,Clone, Copy,PartialEq, Eq, PartialOrd, Ord)]
+pub struct Padding{
+    pub left: u32,
+    pub right: u32,
+    pub top: u32,
+    pub bottom: u32
+}
+
+impl Padding{
+    pub fn new(left:u32, right:u32, top:u32, bottom: u32) -> Self{ 
+        Self { left, right, top, bottom }
+    }
+
+    pub fn sides(x: u32,y:u32) -> Self{
+        Self { left: x, right: x, top: y, bottom: y }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Default)]
