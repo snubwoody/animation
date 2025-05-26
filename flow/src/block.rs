@@ -1,4 +1,4 @@
-use crate::{BoxSizing, Constraints, Layout, impl_layout};
+use crate::{impl_layout, BoxSizing, BoxConstraints, Layout, Padding};
 use ruby_core::{GlobalId, Position, Size};
 
 #[derive(Debug)]
@@ -6,10 +6,11 @@ pub struct BlockLayout {
     id: GlobalId,
     pub intrinsic_width: BoxSizing,
     pub intrinsic_height: BoxSizing,
+    pub padding: Padding,
     size: Size<f32>,
     position: Position<f32>,
     child: Box<dyn Layout>,
-    constraints: Constraints,
+    constraints: BoxConstraints,
 }
 
 impl BlockLayout {
@@ -18,28 +19,39 @@ impl BlockLayout {
             id: GlobalId::new(),
             intrinsic_width: BoxSizing::default(),
             intrinsic_height: BoxSizing::default(),
+            padding: Padding::default(),
             size: Size::default(),
             position: Position::default(),
             child: Box::new(child),
-            constraints: Constraints::new(),
+            constraints: BoxConstraints::new(),
         }
     }
 }
 
 impl Layout for BlockLayout {
-    fn solve_max_constraints(&mut self, max_size: Size<f32>) {}
+    fn solve_max_constraints(&mut self, _max_size: Size<f32>) {}
 
     fn solve_min_contraints(&mut self) -> (f32,f32) {
         let (min_width,min_height) = self.child.solve_min_contraints();
 
         match self.intrinsic_width(){
-            BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_width(min_width),
+            BoxSizing::Flex(_) => self.set_min_width(min_width),
             BoxSizing::Fixed(width) => self.set_min_width(width),
+            BoxSizing::Fit => {
+                let padding = self.padding.left + self.padding.right;
+                let width = min_width + padding as f32;
+                self.set_min_width(width);
+            }
         }
 
         match self.intrinsic_height(){
-            BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_height(min_height),
+            BoxSizing::Flex(_) => self.set_min_height(min_height),
             BoxSizing::Fixed(height) => self.set_min_height(height),
+            BoxSizing::Fit => {
+                let padding = self.padding.top + self.padding.bottom;
+                let height = min_height + padding as f32;
+                self.set_min_height(height);
+            }
         }
 
         (self.constraints.min_width,self.constraints.min_height)

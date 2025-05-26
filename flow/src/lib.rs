@@ -1,8 +1,8 @@
 //! General purpose layout engine
 //!
-//! ## Constraints
-//! [`Constraints`] control the max and min sizing that a layout is
-//! allowed to be. Constraints are set by the parent and are respected
+//! ## BoxConstraints
+//! [`BoxConstraints`] control the max and min sizing that a layout is
+//! allowed to be. BoxConstraints are set by the parent and are respected
 //! by the widget when doing the final layout calculation.
 //!
 mod block;
@@ -45,8 +45,10 @@ pub trait Layout: Debug {
     fn set_min_height(&mut self, height: f32);
 
     fn solve_max_constraints(&mut self, max_size: Size<f32>) {}
-    /// Calculate the minimum constraints and pass it back to the parent
+    /// Calculate the minimum BoxConstraints and pass it back to the parent
     fn solve_min_contraints(&mut self) -> (f32,f32);
+
+    fn constraints(&self) -> BoxConstraints;
 
     /// Update the size of the layout after the contraints have been
     /// solved, and any child layouts
@@ -54,7 +56,7 @@ pub trait Layout: Debug {
 }
 
 pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
-    // Solve the max constraints for the root layout
+    // Solve the max BoxConstraints for the root layout
     match layout.intrinsic_width() {
         BoxSizing::Fit | BoxSizing::Flex(_) => {
             layout.set_max_width(max_size.width);
@@ -73,7 +75,7 @@ pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
         }
     }
 
-    // FIXME set the max size to the root constraints
+    // FIXME set the max size to the root BoxConstraints
     layout.solve_max_constraints(max_size);
     layout.solve_min_contraints();
     layout.update_size();
@@ -98,14 +100,14 @@ impl Padding{
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Default)]
-struct Constraints {
-    max_width: f32,
-    max_height: f32,
-    min_height: f32,
-    min_width: f32,
+pub struct BoxConstraints {
+    pub max_width: f32,
+    pub max_height: f32,
+    pub min_height: f32,
+    pub min_width: f32,
 }
 
-impl Constraints {
+impl BoxConstraints {
     pub fn new() -> Self {
         Self::default()
     }
@@ -179,6 +181,10 @@ macro_rules! impl_layout {
 
         fn set_min_width(&mut self, width: f32) {
             self.constraints.min_width = width;
+        }
+
+        fn constraints(&self) -> crate::BoxConstraints{
+            self.constraints
         }
     };
 }

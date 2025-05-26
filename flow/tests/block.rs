@@ -22,3 +22,21 @@ fn fit_child(){
     dbg!(&root);
     assert_eq!(root.size(), Size::new(24.0,230.0));
 }
+
+#[test]
+fn padding_in_min_constraints(){
+    let child = EmptyLayout::new();
+    
+    let mut root = BlockLayout::new(child);
+    root.padding.right = 24;
+    root.padding.left = 10;
+    root.padding.top = 13;
+    root.padding.bottom = 10;
+
+    root.solve_min_contraints();
+    let min_width = (24 + 10) as f32;
+    let min_height = (13 + 10) as f32;
+
+    assert_eq!(root.constraints().min_width,min_width);
+    assert_eq!(root.constraints().min_height,min_height);
+}

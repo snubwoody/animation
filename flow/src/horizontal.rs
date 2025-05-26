@@ -1,4 +1,4 @@
-use crate::{BoxSizing, Constraints, Layout, Position, Size, impl_layout};
+use crate::{BoxSizing, BoxConstraints, Layout, Position, Size, impl_layout};
 use ruby_core::GlobalId;
 
 /// A [`Layout`] that arranges it's children horizontally.
@@ -10,12 +10,13 @@ pub struct HorizontalLayout {
     children: Vec<Box<dyn Layout>>,
     pub intrinsic_width: BoxSizing,
     pub intrinsic_height: BoxSizing,
-    constraints: Constraints,
+    constraints: BoxConstraints,
 }
 
 impl Layout for HorizontalLayout {
     fn solve_min_contraints(&mut self) -> (f32,f32) {
         (0.0,0.0)
     }
+    
     impl_layout!();
 }

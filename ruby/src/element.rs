@@ -30,7 +30,7 @@ impl Element {
     }
 }
 
-struct Constraints {
+struct BoxConstraints {
     min: Size<f32>,
     max: Size<f32>,
 }

@@ -1,4 +1,4 @@
-use crate::{BoxSizing, Constraints, Layout, Position, Size, impl_layout};
+use crate::{BoxSizing, BoxConstraints, Layout, Position, Size, impl_layout};
 use ruby_core::GlobalId;
 
 #[derive(Debug, Default)]
@@ -6,7 +6,7 @@ pub struct EmptyLayout {
     id: GlobalId,
     size: Size<f32>,
     position: Position<f32>,
-    constraints: Constraints,
+    constraints: BoxConstraints,
     pub intrinsic_width: BoxSizing,
     pub intrinsic_height: BoxSizing,
 }

@@ -2,7 +2,7 @@
 //!
 //! A [`Widget`] is a high level structure that can contain any data and
 //! state. A [`Layout`] is an object that contains layout definitions
-//! and constraints. An [`Element`] is a low level object that contains
+//! and BoxConstraints. An [`Element`] is a low level object that contains
 //! color, size and position information used for rendering.
 #![feature(random)]
 mod color;
