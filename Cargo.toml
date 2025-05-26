@@ -3,5 +3,9 @@ resolver = "3"
 
 members = [
 	"ruby",
-	"flow"
+	"flow", 
+	"ruby_core"
 ]
+
+[workspace.dependencies]
+winit = "0.30.10"

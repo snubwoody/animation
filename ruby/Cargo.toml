@@ -9,7 +9,8 @@ env_logger = "0.11.8"
 log = "0.4.27"
 pixels = "0.15.0"
 tiny-skia = "0.11.4"
-winit = "0.30.10"
+winit.workspace = true
+ruby_core = {path = "../ruby_core"}
 
 [[example]]
 name = "rect"

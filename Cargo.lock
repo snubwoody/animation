@@ -1499,7 +1499,15 @@ dependencies = [
  "env_logger",
  "log",
  "pixels",
+ "ruby_core",
  "tiny-skia",
+ "winit",
+]
+
+[[package]]
+name = "ruby_core"
+version = "0.1.0"
+dependencies = [
  "winit",
 ]
 

@@ -5,10 +5,7 @@
 //! and constraints. An [`Element`] is a low level object that contains
 //! color, size and position information used for rendering.
 #![feature(random)]
-mod size;
-mod position;
 mod color;
-mod layout;
 mod element;
 pub mod widget;
 use std::sync::Arc;
@@ -23,8 +20,7 @@ use winit::{
     window::Window
 };
 pub use color::{Color,Rgba};
-pub use size::Size;
-pub use position::Position;
+pub use ruby_core::{Size,Position};
 pub use element::{Element};
 
 /// An [`App`] is your entire program
