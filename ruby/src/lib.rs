@@ -10,7 +10,6 @@ mod element;
 pub mod widget;
 pub use color::{Color, Rgba};
 pub use element::Element;
-use flow::BlockLayout;
 use pixels::{Pixels, SurfaceTexture};
 pub use ruby_core::{Position, Size};
 use std::sync::Arc;

@@ -52,7 +52,7 @@ macro_rules! column {
     ($($widget: expr),* $(,)?) => {
         {
             #[allow(unused_mut)]
-            let mut column = crate::widget::Column::new();
+            let mut column = $crate::widget::Column::new();
             $(
                 column.add_child($widget);
             )*

@@ -24,8 +24,8 @@ impl Widget for Circle {
 
         let [mut x, mut y] = self.position;
         // Move the origin to the center
-        x = x + self.radius;
-        y = y + self.radius;
+        x += self.radius;
+        y += self.radius;
 
         let path = PathBuilder::from_circle(x, y, self.radius).unwrap();
         pixmap.fill_path(

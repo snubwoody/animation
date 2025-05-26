@@ -159,11 +159,11 @@ macro_rules! impl_layout {
             self.size = size;
         }
 
-        fn intrinsic_height(&self) -> crate::BoxSizing {
+        fn intrinsic_height(&self) -> $crate::BoxSizing {
             self.intrinsic_height
         }
 
-        fn intrinsic_width(&self) -> crate::BoxSizing {
+        fn intrinsic_width(&self) -> $crate::BoxSizing {
             self.intrinsic_width
         }
 
