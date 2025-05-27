@@ -193,7 +193,7 @@ macro_rules! impl_layout {
             self.constraints.min_width = width;
         }
 
-        fn constraints(&self) -> crate::BoxConstraints {
+        fn constraints(&self) -> $crate::BoxConstraints {
             self.constraints
         }
     };
