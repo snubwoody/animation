@@ -1,10 +1,10 @@
-use flow::{solve_layout, BoxSizing, EmptyLayout, HorizontalLayout, Layout, Size};
+use flow::{BoxSizing, EmptyLayout, HorizontalLayout, Layout, Size, solve_layout};
 
 #[test]
-fn fit_children(){
+fn fit_children() {
     let mut child1 = EmptyLayout::new();
     let mut child2 = EmptyLayout::new();
-    
+
     child1.intrinsic_width = BoxSizing::Fixed(90.0);
     child1.intrinsic_height = BoxSizing::Fixed(24.0);
     child2.intrinsic_width = BoxSizing::Fixed(350.0);
@@ -18,5 +18,5 @@ fn fit_children(){
     let width = 90.0 + 350.0;
     let height = 24.0 + 240.0;
 
-    assert_eq!(root.size(),Size::new(width, height))
+    assert_eq!(root.size(), Size::new(width, height))
 }

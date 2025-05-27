@@ -15,12 +15,12 @@ pub struct HorizontalLayout {
     constraints: BoxConstraints,
 }
 
-impl HorizontalLayout{
-    pub fn new() -> Self{
+impl HorizontalLayout {
+    pub fn new() -> Self {
         Self::default()
     }
 
-    pub fn push(&mut self,child: impl Layout + 'static){
+    pub fn push(&mut self, child: impl Layout + 'static) {
         self.children.push(Box::new(child));
     }
 }
@@ -30,7 +30,7 @@ impl Layout for HorizontalLayout {
         let mut min_width = 0.0;
         let mut min_height = 0.0;
 
-        for child in &mut self.children{
+        for child in &mut self.children {
             let constraints = child.solve_min_contraints();
             min_width += constraints.0;
             min_height += constraints.1;
@@ -46,7 +46,7 @@ impl Layout for HorizontalLayout {
             BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_height(min_height),
             BoxSizing::Fixed(height) => self.set_min_height(height),
         }
-        
+
         (min_width, min_height)
     }
 
@@ -63,7 +63,7 @@ impl Layout for HorizontalLayout {
             BoxSizing::Flex(_) => self.size.height = self.constraints.max_height,
         }
 
-        self.children.iter_mut().for_each(|c|c.update_size());
+        self.children.iter_mut().for_each(|c| c.update_size());
     }
 
     impl_layout!();
