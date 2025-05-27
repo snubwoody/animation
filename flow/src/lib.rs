@@ -44,9 +44,9 @@ pub trait Layout: Debug {
     /// Set the layout's min height
     fn set_min_height(&mut self, height: f32);
 
-    fn solve_max_constraints(&mut self) {}
+    fn solve_max_constraints(&mut self);
     /// Calculate the minimum BoxConstraints and pass it back to the parent
-    fn solve_min_contraints(&mut self) -> (f32, f32);
+    fn solve_min_constraints(&mut self) -> (f32, f32);
 
     fn constraints(&self) -> BoxConstraints;
 
@@ -77,7 +77,7 @@ pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
 
     // FIXME set the max size to the root BoxConstraints
     layout.solve_max_constraints();
-    layout.solve_min_contraints();
+    layout.solve_min_constraints();
     layout.update_size();
 }
 
@@ -143,6 +143,31 @@ pub enum CrossAxisAlignment {
     Start,
     Center,
     End,
+}
+
+#[macro_export]
+macro_rules! impl_padding {
+    () => {
+        pub fn padding_left(mut self,padding: u32) -> Self{
+            self.padding.left = padding;
+            self
+        }
+
+        pub fn padding_right(mut self,padding: u32) -> Self{
+            self.padding.right = padding;
+            self
+        }
+
+        pub fn padding_top(mut self,padding: u32) -> Self{
+            self.padding.top = padding;
+            self
+        }
+
+        pub fn padding_bottom(mut self,padding: u32) -> Self{
+            self.padding.bottom = padding;
+            self
+        }
+    };
 }
 
 /// Implement the common layout methods

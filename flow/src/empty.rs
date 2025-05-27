@@ -18,7 +18,9 @@ impl EmptyLayout {
 }
 
 impl Layout for EmptyLayout {
-    fn solve_min_contraints(&mut self) -> (f32, f32) {
+    fn solve_max_constraints(&mut self) {}
+
+    fn solve_min_constraints(&mut self) -> (f32, f32) {
         match self.intrinsic_width {
             BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_width(0.0),
             BoxSizing::Fixed(width) => self.set_min_width(width),

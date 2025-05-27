@@ -1,4 +1,4 @@
-use crate::{BoxConstraints, BoxSizing, Layout, Padding, impl_layout};
+use crate::{impl_layout, impl_padding, BoxConstraints, BoxSizing, Layout, Padding};
 use ruby_core::{GlobalId, Position, Size};
 
 #[derive(Debug)]
@@ -30,6 +30,8 @@ impl BlockLayout {
     pub fn child(&self) -> &dyn Layout {
         self.child.as_ref()
     }
+
+    impl_padding!();
 }
 
 impl Layout for BlockLayout {
@@ -59,8 +61,8 @@ impl Layout for BlockLayout {
         self.child.solve_max_constraints();
     }
 
-    fn solve_min_contraints(&mut self) -> (f32, f32) {
-        let (min_width, min_height) = self.child.solve_min_contraints();
+    fn solve_min_constraints(&mut self) -> (f32, f32) {
+        let (min_width, min_height) = self.child.solve_min_constraints();
 
         // TODO add padding in the function body not the match statement
         match self.intrinsic_width() {

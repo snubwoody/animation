@@ -70,7 +70,7 @@ fn padding_in_min_constraints() {
     root.padding.top = 13;
     root.padding.bottom = 10;
 
-    root.solve_min_contraints();
+    root.solve_min_constraints();
     let min_width = (24 + 10) as f32;
     let min_height = (13 + 10) as f32;
 
