@@ -62,6 +62,7 @@ impl Layout for BlockLayout {
     fn solve_min_contraints(&mut self) -> (f32, f32) {
         let (min_width, min_height) = self.child.solve_min_contraints();
 
+        // TODO add padding in the function body not the match statement
         match self.intrinsic_width() {
             BoxSizing::Flex(_) => self.set_min_width(min_width),
             BoxSizing::Fixed(width) => self.set_min_width(width),

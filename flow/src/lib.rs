@@ -52,7 +52,7 @@ pub trait Layout: Debug {
 
     /// Update the size of the layout after the contraints have been
     /// solved, and any child layouts
-    fn update_size(&mut self) {}
+    fn update_size(&mut self);
 }
 
 pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
