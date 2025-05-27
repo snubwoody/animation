@@ -146,6 +146,27 @@ pub enum CrossAxisAlignment {
 }
 
 #[macro_export]
+macro_rules! impl_size {
+    () => {
+        pub fn fill(mut self) -> Self{
+            self.intrinsic_width = $crate::BoxSizing::Flex(1);
+            self.intrinsic_height = $crate::BoxSizing::Flex(1);
+            self
+        }
+
+        pub fn fill_weight(mut self) -> Self{
+            self.intrinsic_width = $crate::BoxSizing::Flex(1);
+            self
+        }
+
+        pub fn fill_height(mut self) -> Self{
+            self.intrinsic_height = $crate::BoxSizing::Flex(1);
+            self
+        }
+    };
+}
+
+#[macro_export]
 macro_rules! impl_padding {
     () => {
         pub fn padding_left(mut self,padding: u32) -> Self{

@@ -1,4 +1,4 @@
-use crate::{BoxConstraints, BoxSizing, Layout, Position, Size, impl_layout};
+use crate::{impl_layout, impl_size, BoxConstraints, BoxSizing, Layout, Position, Size};
 use ruby_core::GlobalId;
 
 #[derive(Debug, Default)]
@@ -15,6 +15,8 @@ impl EmptyLayout {
     pub fn new() -> Self {
         Self::default()
     }
+
+    impl_size!();
 }
 
 impl Layout for EmptyLayout {

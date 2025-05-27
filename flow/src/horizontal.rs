@@ -1,4 +1,4 @@
-use crate::{impl_layout, impl_padding, BoxConstraints, BoxSizing, Layout, Padding, Position, Size};
+use crate::{impl_layout, impl_padding, impl_size, BoxConstraints, BoxSizing, Layout, Padding, Position, Size};
 use ruby_core::GlobalId;
 
 /// A [`Layout`] that arranges it's children horizontally.
@@ -43,12 +43,15 @@ impl HorizontalLayout {
         self.children.push(Box::new(child));
     }
 
+    impl_size!();
     impl_padding!();
 }
 
 impl Layout for HorizontalLayout {
     fn solve_max_constraints(&mut self) {
+       for child in &mut self.children{
 
+       }
     }
 
     fn solve_min_constraints(&mut self) -> (f32, f32) {
@@ -99,6 +102,11 @@ impl Layout for HorizontalLayout {
 mod tests{
     use crate::EmptyLayout;
     use super::*;
+
+    #[test]
+    fn child_max_constraints(){
+
+    }
 
     #[test]
     fn update_children_size(){

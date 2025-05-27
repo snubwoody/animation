@@ -1,4 +1,4 @@
-use crate::{impl_layout, impl_padding, BoxConstraints, BoxSizing, Layout, Padding};
+use crate::{impl_layout, impl_padding, impl_size, BoxConstraints, BoxSizing, Layout, Padding};
 use ruby_core::{GlobalId, Position, Size};
 
 #[derive(Debug)]
@@ -31,6 +31,7 @@ impl BlockLayout {
         self.child.as_ref()
     }
 
+    impl_size!();
     impl_padding!();
 }
 
