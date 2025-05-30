@@ -1,3 +1,4 @@
+
 /// An rgba color.
 ///
 /// The alpha channel goes from 0-100.
@@ -10,5 +11,9 @@ pub struct Color<C>(C);
 impl<C> Color<C> {
     fn rgba(r: u8, g: u8, b: u8, a: u8) -> Color<Rgba> {
         Color(Rgba(r, g, b, a))
+    }
+
+    fn rgb(r: u8, g: u8, b: u8) -> Color<Rgba> {
+        Color(Rgba(r, g, b, 100))
     }
 }
