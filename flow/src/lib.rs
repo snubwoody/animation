@@ -148,34 +148,34 @@ pub enum CrossAxisAlignment {
 #[macro_export]
 macro_rules! impl_size {
     () => {
-        pub fn fixed(mut self,width: f32, height: f32) -> Self{
+        pub fn fixed(mut self, width: f32, height: f32) -> Self {
             self.intrinsic_width = $crate::BoxSizing::Fixed(width);
             self.intrinsic_height = $crate::BoxSizing::Fixed(height);
             self
         }
 
-        pub fn fixed_width(mut self,width: f32,) -> Self{
+        pub fn fixed_width(mut self, width: f32) -> Self {
             self.intrinsic_width = $crate::BoxSizing::Fixed(width);
             self
         }
 
-        pub fn fixed_height(mut self, height: f32) -> Self{
+        pub fn fixed_height(mut self, height: f32) -> Self {
             self.intrinsic_height = $crate::BoxSizing::Fixed(height);
             self
         }
 
-        pub fn fill(mut self) -> Self{
+        pub fn fill(mut self) -> Self {
             self.intrinsic_width = $crate::BoxSizing::Flex(1);
             self.intrinsic_height = $crate::BoxSizing::Flex(1);
             self
         }
 
-        pub fn fill_width(mut self) -> Self{
+        pub fn fill_width(mut self) -> Self {
             self.intrinsic_width = $crate::BoxSizing::Flex(1);
             self
         }
 
-        pub fn fill_height(mut self) -> Self{
+        pub fn fill_height(mut self) -> Self {
             self.intrinsic_height = $crate::BoxSizing::Flex(1);
             self
         }
@@ -185,22 +185,22 @@ macro_rules! impl_size {
 #[macro_export]
 macro_rules! impl_padding {
     () => {
-        pub fn padding_left(mut self,padding: u32) -> Self{
+        pub fn padding_left(mut self, padding: u32) -> Self {
             self.padding.left = padding;
             self
         }
 
-        pub fn padding_right(mut self,padding: u32) -> Self{
+        pub fn padding_right(mut self, padding: u32) -> Self {
             self.padding.right = padding;
             self
         }
 
-        pub fn padding_top(mut self,padding: u32) -> Self{
+        pub fn padding_top(mut self, padding: u32) -> Self {
             self.padding.top = padding;
             self
         }
 
-        pub fn padding_bottom(mut self,padding: u32) -> Self{
+        pub fn padding_bottom(mut self, padding: u32) -> Self {
             self.padding.bottom = padding;
             self
         }

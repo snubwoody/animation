@@ -1,4 +1,4 @@
-use crate::{impl_layout, impl_size, BoxConstraints, BoxSizing, Layout, Position, Size};
+use crate::{BoxConstraints, BoxSizing, Layout, Position, Size, impl_layout, impl_size};
 use ruby_core::GlobalId;
 
 #[derive(Debug, Default)]

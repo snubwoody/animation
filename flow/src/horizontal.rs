@@ -1,26 +1,29 @@
-use crate::{impl_layout, impl_padding, impl_size, BoxConstraints, BoxSizing, Layout, Padding, Position, Size};
+use crate::{
+    BoxConstraints, BoxSizing, Layout, Padding, Position, Size, impl_layout, impl_padding,
+    impl_size,
+};
 use ruby_core::GlobalId;
 
 /// A [`Layout`] that arranges it's children horizontally.
-/// 
+///
 /// # Example
 /// ```
 /// use flow::{HorizontalLayout,EmptyLayout,Size,BoxSizing,Layout};
-/// 
+///
 /// let mut child1 = EmptyLayout::new();
 /// let mut child2 = EmptyLayout::new();
-/// 
+///
 /// child1.intrinsic_width = BoxSizing::Fixed(200.0);
 /// child2.intrinsic_width = BoxSizing::Fixed(300.0);
-/// 
+///
 /// let mut layout = HorizontalLayout::new();
-/// layout.push(child1); 
-/// layout.push(child2); 
-/// 
+/// layout.push(child1);
+/// layout.push(child2);
+///
 /// flow::solve_layout(&mut layout,Size::unit(1000.0));
 /// assert_eq!(layout.size().width,500.0);
 /// ```
-/// 
+///
 #[derive(Debug, Default)]
 pub struct HorizontalLayout {
     id: GlobalId,
@@ -49,9 +52,19 @@ impl HorizontalLayout {
 
 impl Layout for HorizontalLayout {
     fn solve_max_constraints(&mut self) {
-       for child in &mut self.children{
+        for child in &mut self.children {
+            match child.intrinsic_width() {
+                BoxSizing::Fit | BoxSizing::Flex(_) => {}
+                BoxSizing::Fixed(width) => child.set_max_width(width),
+            }
 
-       }
+            match child.intrinsic_height() {
+                BoxSizing::Fit | BoxSizing::Flex(_) => {}
+                BoxSizing::Fixed(height) => child.set_max_height(height),
+            }
+
+            child.solve_max_constraints();
+        }
     }
 
     fn solve_min_constraints(&mut self) -> (f32, f32) {
@@ -97,24 +110,58 @@ impl Layout for HorizontalLayout {
     impl_layout!();
 }
 
-
 #[cfg(test)]
-mod tests{
-    use crate::EmptyLayout;
+mod tests {
     use super::*;
+    use crate::EmptyLayout;
 
     #[test]
-    fn child_max_constraints(){
+    fn fixed_max_constraints() {
+        let child1 = EmptyLayout::new().fixed(200.0, 300.0);
+        let child2 = EmptyLayout::new().fixed(50.0, 670.0);
 
+        let mut layout = HorizontalLayout::new();
+        layout.push(child1);
+        layout.push(child2);
+        layout.solve_max_constraints();
+
+        let child1 = &layout.children[0];
+        let child2 = &layout.children[1];
+
+        assert_eq!(child1.constraints().max_width, 200.0);
+        assert_eq!(child1.constraints().max_height, 300.0);
+        assert_eq!(child2.constraints().max_width, 50.0);
+        assert_eq!(child2.constraints().max_height, 670.0);
     }
 
     #[test]
-    fn update_children_size(){
+    fn fill_max_constraints() {
+        let child1 = EmptyLayout::new().fill();
+        let child2 = EmptyLayout::new().fill();
+
+        let mut layout = HorizontalLayout::new();
+        layout.set_max_width(1000.0);
+        layout.set_max_height(1000.0);
+        layout.push(child1);
+        layout.push(child2);
+        layout.solve_max_constraints();
+
+        let child1 = &layout.children[0];
+        let child2 = &layout.children[1];
+
+        assert_eq!(child1.constraints().max_width, 200.0);
+        assert_eq!(child1.constraints().max_height, 300.0);
+        assert_eq!(child2.constraints().max_width, 50.0);
+        assert_eq!(child2.constraints().max_height, 670.0);
+    }
+
+    #[test]
+    fn update_children_size() {
         let mut child1 = EmptyLayout::new();
         let mut child2 = EmptyLayout::new();
         child1.intrinsic_width = BoxSizing::Fixed(250.0);
         child2.intrinsic_height = BoxSizing::Fixed(90.0);
-    
+
         let mut layout = HorizontalLayout::new();
         layout.push(child1);
         layout.push(child2);
@@ -124,7 +171,7 @@ mod tests{
         let child1 = &layout.children[0];
         let child2 = &layout.children[1];
 
-        assert_eq!(child1.size().width,250.0);
-        assert_eq!(child2.size().height,90.0);
+        assert_eq!(child1.size().width, 250.0);
+        assert_eq!(child2.size().height, 90.0);
     }
 }

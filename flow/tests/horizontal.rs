@@ -24,6 +24,6 @@ fn fit_children() {
 #[test]
 fn fill_window() {
     let mut root = HorizontalLayout::new().fill();
-    solve_layout(&mut root, Size::new(500.0,100.0));
+    solve_layout(&mut root, Size::new(500.0, 100.0));
     assert_eq!(root.size(), Size::new(500.0, 100.0))
 }
