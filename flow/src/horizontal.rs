@@ -51,10 +51,7 @@ impl HorizontalLayout {
     fn sum_fixed_width(&self) -> f32 {
         let mut sum = 0.0;
         for child in &self.children {
-            match child.intrinsic_width() {
-                BoxSizing::Fixed(width) => sum += width,
-                _ => {}
-            }
+            if let BoxSizing::Fixed(width) = child.intrinsic_width() { sum += width }
         }
         sum
     }
@@ -65,10 +62,7 @@ impl HorizontalLayout {
         // TODO handle overflow?
         let mut flex_total = 0;
         for child in &self.children {
-            match child.intrinsic_width() {
-                BoxSizing::Flex(flex) => flex_total += flex,
-                _ => {}
-            }
+            if let BoxSizing::Flex(flex) = child.intrinsic_width() { flex_total += flex }
         }
         flex_total
     }
