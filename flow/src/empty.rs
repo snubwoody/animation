@@ -22,6 +22,8 @@ impl EmptyLayout {
 impl Layout for EmptyLayout {
     fn solve_max_constraints(&mut self) {}
 
+    fn position_children(&mut self) {}
+
     fn solve_min_constraints(&mut self) -> (f32, f32) {
         match self.intrinsic_width {
             BoxSizing::Fit | BoxSizing::Flex(_) => self.set_min_width(0.0),

@@ -172,6 +172,10 @@ impl Layout for HorizontalLayout {
         self.children.iter_mut().for_each(|c| c.update_size());
     }
 
+    fn position_children(&mut self) {
+        
+    }
+
     impl_layout!();
 }
 

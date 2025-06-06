@@ -105,5 +105,22 @@ impl Layout for BlockLayout {
         self.child.update_size();
     }
 
+    fn position_children(&mut self) {
+        let x = self.position.x + self.padding.left as f32;
+        let y = self.position.y + self.padding.top as f32;
+
+        self.child.set_position(Position { x, y });
+    }
+
     impl_layout!();
+}
+
+#[cfg(test)]
+mod tests{
+    use super::*;
+    
+    #[test]
+    fn set_child_position(){
+
+    }
 }

@@ -44,15 +44,16 @@ pub trait Layout: Debug {
     /// Set the layout's min height
     fn set_min_height(&mut self, height: f32);
 
+    fn constraints(&self) -> BoxConstraints;
     fn solve_max_constraints(&mut self);
-    /// Calculate the minimum BoxConstraints and pass it back to the parent
+    /// Calculate the minimum constraints and pass it back to the parent
     fn solve_min_constraints(&mut self) -> (f32, f32);
 
-    fn constraints(&self) -> BoxConstraints;
 
     /// Update the size of the layout after the contraints have been
     /// solved, and any child layouts
     fn update_size(&mut self);
+    fn position_children(&mut self);
 }
 
 pub fn solve_layout(layout: &mut impl Layout, max_size: Size<f32>) {
