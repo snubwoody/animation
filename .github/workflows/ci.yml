@@ -1,0 +1,64 @@
+name: CI
+env:
+  CARGO_TERM_COLOR: always
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+on:
+  pull_request:
+    branches: ["main"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@nextest
+      - uses: actions/cache@v4
+        with:
+          path: | 
+            ~/.cargo
+            target/
+          key: ${{runner.os}}-cargo-${{hashFiles('Cargo.lock')}}
+          restore-keys: ${{runner.os}}-cargo-
+      - run: cargo nextest run
+  doc-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: | 
+            ~/.cargo
+            target/
+          key: ${{runner.os}}-cargo-${{hashFiles('Cargo.lock')}}
+          restore-keys: ${{runner.os}}-cargo-
+      - run: cargo test --doc
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: | 
+            ~/.cargo
+            target/
+          key: ${{runner.os}}-cargo-${{hashFiles('Cargo.lock')}}
+          restore-keys: ${{runner.os}}-cargo-
+      - run: cargo fmt --check
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: | 
+            ~/.cargo
+            target/
+          key: ${{runner.os}}-cargo-${{hashFiles('Cargo.lock')}}
+          restore-keys: ${{runner.os}}-cargo-
+      - run: cargo clippy -- -D warnings
+  all-systems-pass:
+    needs: [lint,format,doc-test,test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
