@@ -31,7 +31,7 @@ pub struct App<'a> {
     widget: Box<dyn Widget>,
 }
 
-impl<'a> App<'a> {
+impl App<'_> {
     pub fn new(widget: impl Widget + 'static) -> Self {
         Self {
             size: Size::default(),
@@ -49,7 +49,7 @@ impl<'a> App<'a> {
     }
 }
 
-impl<'a> ApplicationHandler for App<'a> {
+impl ApplicationHandler for App<'_> {
     fn resumed(&mut self, event_loop: &winit::event_loop::ActiveEventLoop) {
         let window = event_loop.create_window(Default::default()).unwrap();
         let window = Arc::new(window);
