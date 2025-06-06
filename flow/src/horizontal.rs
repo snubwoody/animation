@@ -1,6 +1,6 @@
 use crate::{
-    BoxConstraints, BoxSizing, Layout, Padding, Position, Size, 
-    impl_layout, impl_padding, impl_size,
+    BoxConstraints, BoxSizing, Layout, Padding, Position, Size, impl_layout, impl_padding,
+    impl_size,
 };
 use ruby_core::GlobalId;
 
@@ -48,12 +48,12 @@ impl HorizontalLayout {
 
     /// Calculate the total width of the children with
     /// fixed `instrinsic_width`
-    fn sum_fixed_width(&self) -> f32{
+    fn sum_fixed_width(&self) -> f32 {
         let mut sum = 0.0;
-        for child in &self.children{
+        for child in &self.children {
             match child.intrinsic_width() {
                 BoxSizing::Fixed(width) => sum += width,
-                _ => {} 
+                _ => {}
             }
         }
         sum
@@ -61,13 +61,13 @@ impl HorizontalLayout {
 
     /// Calculate the total flex factor across all the
     /// children
-    fn flex_total(&self) -> u8{
+    fn flex_total(&self) -> u8 {
         // TODO handle overflow?
         let mut flex_total = 0;
-        for child in &self.children{
+        for child in &self.children {
             match child.intrinsic_width() {
                 BoxSizing::Flex(flex) => flex_total += flex,
-                _ => {} 
+                _ => {}
             }
         }
         flex_total
@@ -83,21 +83,25 @@ impl Layout for HorizontalLayout {
 
         for child in &mut self.children {
             match child.intrinsic_width() {
-                BoxSizing::Fit => {}
+                BoxSizing::Fit => {
+                    child.set_max_width(child.constraints().min_width);
+                }
                 BoxSizing::Flex(flex) => {
                     let factor = flex as f32 / flex_total as f32;
                     let width = self.constraints.max_width * factor;
                     child.set_max_width(width);
                 }
-                BoxSizing::Fixed(width) => child.set_max_width(width)
+                BoxSizing::Fixed(width) => child.set_max_width(width),
             }
 
             match child.intrinsic_height() {
-                BoxSizing::Fit => {}
+                BoxSizing::Fit => {
+                    child.set_max_height(child.constraints().min_height);
+                }
                 BoxSizing::Flex(_) => {
                     child.set_max_height(self.constraints.max_height);
                 }
-                BoxSizing::Fixed(height) => child.set_max_height(height)
+                BoxSizing::Fixed(height) => child.set_max_height(height),
             }
 
             child.solve_max_constraints();
@@ -162,7 +166,7 @@ mod tests {
         layout.push(child2);
         let total_width = layout.sum_fixed_width();
 
-        assert_eq!(total_width,250.0);
+        assert_eq!(total_width, 250.0);
     }
 
     #[test]
@@ -198,12 +202,46 @@ mod tests {
 
         let child1 = &layout.children[0];
         let child2 = &layout.children[1];
-        
-        assert_eq!(child1.constraints().max_width,500.0);
-        assert_eq!(child2.constraints().max_width,500.0);
-        assert_eq!(child1.constraints().max_height,1000.0);
-        assert_eq!(child2.constraints().max_height,1000.0);
 
+        assert_eq!(child1.constraints().max_width, 500.0);
+        assert_eq!(child2.constraints().max_width, 500.0);
+        assert_eq!(child1.constraints().max_height, 1000.0);
+        assert_eq!(child2.constraints().max_height, 1000.0);
+    }
+
+    #[test]
+    fn fit_max_constraints() {
+        let mut child1 = EmptyLayout::new();
+        let mut child2 = EmptyLayout::new();
+        child1.set_min_width(150.0);
+        child1.set_min_height(50.0);
+        child2.set_min_width(300.0);
+        child2.set_min_height(349.0);
+
+        let mut layout = HorizontalLayout::new();
+        layout.push(child1);
+        layout.push(child2);
+        layout.solve_max_constraints();
+
+        let child1 = &layout.children[0];
+        let child2 = &layout.children[1];
+
+        assert_eq!(
+            child1.constraints().max_width,
+            child1.constraints().min_width
+        );
+        assert_eq!(
+            child2.constraints().max_width,
+            child2.constraints().min_width
+        );
+        assert_eq!(
+            child1.constraints().max_height,
+            child1.constraints().min_height
+        );
+        assert_eq!(
+            child2.constraints().max_height,
+            child2.constraints().min_height
+        );
     }
 
     #[test]

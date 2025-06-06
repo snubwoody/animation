@@ -6,7 +6,7 @@ pub use position::Position;
 pub use size::Size;
 
 // Should this be copy? or even clone?
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct GlobalId(i32);
 
 impl GlobalId {
