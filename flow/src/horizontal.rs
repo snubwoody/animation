@@ -42,8 +42,32 @@ impl HorizontalLayout {
         Self::default()
     }
 
+    pub fn children(&self) -> &[Box<dyn Layout>]{
+        self.children.as_slice()
+    }
+
     pub fn push(&mut self, child: impl Layout + 'static) {
         self.children.push(Box::new(child));
+    }
+
+    /// Append a list of layouts
+    /// 
+    /// # Example
+    /// ```
+    /// use flow::{HorizontalLayout,EmptyLayout};
+    /// 
+    /// let mut layout = HorizontalLayout::new();
+    /// layout.append([EmptyLayout::new(),HorizontalLayout::new()]);
+    /// 
+    /// assert_eq!(layout.children().len(),3);
+    /// ```
+    pub fn append<I>(&mut self, children:I)
+    where 
+        I: IntoIterator<Item: Layout + 'static>, 
+    {
+        for child in children{
+            self.children.push(Box::new(child));
+        }
     }
 
     /// Calculate the total width of the children with
@@ -162,8 +186,7 @@ mod tests {
         let child2 = EmptyLayout::new().fixed(50.0, 670.0);
 
         let mut layout = HorizontalLayout::new();
-        layout.push(child1);
-        layout.push(child2);
+        layout.append([child1,child2]);
         let total_width = layout.sum_fixed_width();
 
         assert_eq!(total_width, 250.0);

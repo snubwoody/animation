@@ -1,7 +1,7 @@
 //! General purpose layout engine
-//!
+//! 
 //! ## BoxConstraints
-//! [`BoxConstraints`] control the max and min sizing that a layout is
+//! [`BoxConstraints`] control the max and min size that a layout is
 //! allowed to be. BoxConstraints are set by the parent and are respected
 //! by the widget when doing the final layout calculation.
 //!

@@ -1,5 +1,4 @@
 use ruby_core::GlobalId;
-
 use super::Widget;
 
 /// A [`Column`] is a [`Widget`] that arranges it children
@@ -35,7 +34,7 @@ impl Widget for Column {
 }
 
 /// A [`Column`] is a [`Widget`] that aligns it's children
-/// vertically one after another.
+/// vertically, one after another.
 ///
 /// # Example
 /// ```

@@ -27,3 +27,17 @@ fn fill_window() {
     solve_layout(&mut root, Size::new(500.0, 100.0));
     assert_eq!(root.size(), Size::new(500.0, 100.0))
 }
+
+#[test]
+fn fixed_with_flex_sizing() {
+    let child1 = EmptyLayout::new().fixed_width(200.0);
+    let child2 = EmptyLayout::new().fill_width();
+    let child3 = EmptyLayout::new().fixed_width(300.0);
+
+    let mut root = HorizontalLayout::new().fill();
+    root.append([child1,child2,child3]);
+    solve_layout(&mut root, Size::new(700.0, 500.0));
+
+    let child2 = &root.children()[0];
+    assert_eq!(child2.size().width,200.0);
+}
