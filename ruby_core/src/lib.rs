@@ -1,5 +1,4 @@
-#![feature(random)]
-use std::{fmt::Debug, random::random};
+use std::fmt::Debug;
 mod position;
 mod size;
 pub use position::Position;
@@ -18,7 +17,7 @@ impl GlobalId {
 impl Default for GlobalId {
     fn default() -> Self {
         // TODO replace with rand crate
-        let id = random();
+        let id = rand::random();
         Self(id)
     }
 }

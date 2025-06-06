@@ -4,7 +4,6 @@
 //! state. A [`Layout`] is an object that contains layout definitions
 //! and BoxConstraints. An [`Element`] is a low level object that contains
 //! color, size and position information used for rendering.
-#![feature(random)]
 mod color;
 mod element;
 pub mod widget;
