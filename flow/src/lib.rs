@@ -107,6 +107,15 @@ impl Padding {
             bottom: y,
         }
     }
+
+    pub fn all(value: u32) -> Self {
+        Self {
+            left: value,
+            right: value,
+            top: value,
+            bottom: value,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Default)]
