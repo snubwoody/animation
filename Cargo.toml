@@ -9,3 +9,4 @@ members = [
 
 [workspace.dependencies]
 winit = "0.30.10"
+thiserror = "2.0.12"

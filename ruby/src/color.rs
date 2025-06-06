@@ -1,4 +1,3 @@
-
 /// An rgba color.
 ///
 /// The alpha channel goes from 0-100.
