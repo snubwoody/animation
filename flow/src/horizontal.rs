@@ -74,6 +74,8 @@ impl HorizontalLayout {
 impl Layout for HorizontalLayout {
     fn solve_max_constraints(&mut self) {
         let flex_total = self.flex_total();
+        let total_width = self.sum_fixed_width();
+        let max_width = self.constraints.max_width - total_width;
 
         for child in &mut self.children {
             match child.intrinsic_width() {
@@ -82,7 +84,7 @@ impl Layout for HorizontalLayout {
                 }
                 BoxSizing::Flex(flex) => {
                     let factor = flex as f32 / flex_total as f32;
-                    let width = self.constraints.max_width * factor;
+                    let width = max_width * factor;
                     child.set_max_width(width);
                 }
                 BoxSizing::Fixed(width) => child.set_max_width(width),
@@ -161,6 +163,24 @@ mod tests {
         let total_width = layout.sum_fixed_width();
 
         assert_eq!(total_width, 250.0);
+    }
+
+    #[test]
+    fn subtract_fixed_with_from_flex() {
+        let child1 = EmptyLayout::new().fixed_width(200.0);
+        let child2 = EmptyLayout::new().fixed_width(50.0);
+        let child3 = EmptyLayout::new().fill();
+
+        let mut layout = HorizontalLayout::new();
+        layout.push(child1);
+        layout.push(child2);
+        layout.push(child3);
+        layout.set_max_width(500.0);
+        layout.solve_max_constraints();
+
+        let child3 = &layout.children[2];
+
+        assert_eq!(child3.constraints().max_width, 250.0);
     }
 
     #[test]
